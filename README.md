@@ -1,85 +1,46 @@
-# strata-ecs
+<p align="center">
+  <a href="https://vibefield.github.io/strata-ecs/">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset=".github/readme/hero-dark.svg">
+      <img src=".github/readme/hero-light.svg" alt="strata-ecs: the ECS for editors and infinite canvases. A core runtime, with reactivity, a shared document and presence as layers you opt into." width="100%">
+    </picture>
+  </a>
+</p>
 
-**A collaborative entity-component-system for editors and infinite-canvas apps.**
+<p align="center">
+  <b>An entity-component-system for apps that edit documents.</b><br>
+  Whiteboards, node graphs, design tools. Fast as typed arrays, reactive,<br>
+  and multiplayer when you want it, as a layer you add and not a rewrite.
+</p>
 
-![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6)
-![license](https://img.shields.io/badge/license-MIT-green)
-![status](https://img.shields.io/badge/status-pre--release-orange)
-![collab](https://img.shields.io/badge/CRDT-Loro-0f766e)
-[![ci](https://github.com/jamesyong-42/strata-ecs/actions/workflows/ci.yml/badge.svg)](https://github.com/jamesyong-42/strata-ecs/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/%40vibecook%2Fstrata-ecs)](https://www.npmjs.com/package/@vibecook/strata-ecs)
+<p align="center">
+  <a href="https://vibefield.github.io/strata-ecs/"><b>Guide</b></a>&nbsp;&nbsp;·&nbsp;
+  <a href="https://vibefield.github.io/strata-ecs/api.html">API</a>&nbsp;&nbsp;·&nbsp;
+  <a href="https://vibefield.github.io/strata-ecs/demo/">Live demo</a>&nbsp;&nbsp;·&nbsp;
+  <a href="BENCHMARKS.md">Benchmarks</a>&nbsp;&nbsp;·&nbsp;
+  <a href="https://www.npmjs.com/package/@vibecook/strata-ecs">npm</a>&nbsp;&nbsp;·&nbsp;
+  <a href="CHANGELOG.md">Changelog</a>
+</p>
 
-strata-ecs is an entity-component-system for TypeScript apps that edit documents —
-whiteboards, node graphs, design tools. Model the document as entities and components,
-query it at typed-array speed, and add CRDT-backed multiplayer later as a layer — not a
-rewrite.
+<p align="center">
+  <a href="https://github.com/vibefield/strata-ecs/actions/workflows/ci.yml"><picture><source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/github/actions/workflow/status/vibefield/strata-ecs/ci.yml?branch=main&label=ci&style=flat-square&labelColor=212437&color=e6eafb"><img src="https://img.shields.io/github/actions/workflow/status/vibefield/strata-ecs/ci.yml?branch=main&label=ci&style=flat-square&labelColor=6a6a64&color=0a0a0a" alt="CI"></picture></a>
+  <a href="https://www.npmjs.com/package/@vibecook/strata-ecs"><picture><source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/npm/v/%40vibecook%2Fstrata-ecs?label=npm&style=flat-square&labelColor=212437&color=e6eafb"><img src="https://img.shields.io/npm/v/%40vibecook%2Fstrata-ecs?label=npm&style=flat-square&labelColor=6a6a64&color=0a0a0a" alt="@vibecook/strata-ecs on npm"></picture></a>
+  <a href="LICENSE"><picture><source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/license-MIT-e6eafb?style=flat-square&labelColor=212437"><img src="https://img.shields.io/badge/license-MIT-0a0a0a?style=flat-square&labelColor=6a6a64" alt="MIT licence"></picture></a>
+</p>
 
-It is built for the editor workload, **not games**: tens of thousands of live objects,
-undo, autosave, live cursors, and a render loop that must never pay for features you
-haven't turned on.
+<br>
 
-- **Typed-array fast** — components live in struct-of-arrays columns grouped by
-  archetype; a system is a contiguous loop over a `Float32Array`. Ties or beats
-  [bitecs](https://github.com/NateTheGreatt/bitECS) on the canonical iteration
-  benchmarks, leads on entity-lifecycle churn ([BENCHMARKS.md](BENCHMARKS.md)).
-- **Schema-first types** — field types flow from one schema literal into both the
-  storage and the TypeScript types. `batch.col(Position).x` _is_ a `Float32Array` at
-  compile time; a typo in a field name is a type error.
-- **Reactivity built in, free until used** — subscribe to queries, values, or
-  resources instead of scattering dirty flags. Dormant until the first observer;
-  an idle check over 10,000 watches costs ~39 ns.
-- **CRDT-backed multiplayer as opt-in layers** — a durable **Document** layer
-  (permanently stored, merges without conflicts) and an ephemeral **Presence** layer
-  (cursors and selections that reset on disconnect), both projecting into the same
-  runtime your systems already read. Convergence comes from [Loro](https://loro.dev),
-  not from code you write — and the hot path never imports it. Undo and redo ship
-  built in and multiplayer-correct: each peer undoes only its own changes.
-- **Transport-agnostic** — the framework converges documents; your app moves bytes.
-  Any channel that carries a `Uint8Array` works: WebSocket, `BroadcastChannel`, WebRTC.
-- **First-party devtools and React binding** — a drop-in inspector panel and a frame-profiler
-  overlay (`@vibecook/strata-ecs/tools`), plus two `useSyncExternalStore` hooks (`@vibecook/strata-ecs/react`).
+<p align="center">
+  <a href="https://vibefield.github.io/strata-ecs/demo/"><img src=".github/readme/demo.png" alt="The example whiteboard, zoomed into a board of 10,000 shapes and notes. The observer panel lists each system's time: Cull 240 microseconds, the rest idle. The meter reads 60 fps." width="100%"></a>
+</p>
 
-**Documentation:** [the guide](https://jamesyong-42.github.io/strata-ecs/) ·
-[API reference](https://jamesyong-42.github.io/strata-ecs/api.html) ·
-[live demo](https://jamesyong-42.github.io/strata-ecs/demo/) ·
-[benchmarks](https://jamesyong-42.github.io/strata-ecs/benchmarks.html)
+<p align="center"><sub>The example whiteboard holding 10,000 shapes, with the observer from <code>@vibecook/strata-ecs/tools</code>. A screenshot of the <a href="https://vibefield.github.io/strata-ecs/demo/">live demo</a>, not a mock.</sub></p>
 
----
-
-## Contents
-
-- [Install](#install)
-- [Quick start](#quick-start)
-- [The five words](#the-five-words)
-- [When not to use it](#when-not-to-use-it)
-- [Architecture](#architecture)
-- [Reactivity](#reactivity)
-- [Save & load](#save--load)
-- [Going multiplayer](#going-multiplayer)
-- [Devtools](#devtools)
-- [The example app](#the-example-app)
-- [Performance](#performance)
-- [Package exports](#package-exports)
-- [Development](#development)
-- [Status](#status)
-- [License](#license)
-
-## Install
+## Start
 
 ```sh
 npm install @vibecook/strata-ecs
 ```
-
-> **Pre-1.0:** the API may still move between minor versions — pin your version and read
-> the [changelog](CHANGELOG.md) when bumping.
-
-`loro-crdt` and `react` are **optional** peer dependencies — you install them only if
-you use the collaboration layers or the React binding. The core has zero dependencies.
-
-## Quick start
-
-Components hold typed data. Entities carry components. Systems run over queries. The
-world ticks:
 
 ```ts
 import {
@@ -94,12 +55,11 @@ const Position = defineComponent("Position", { x: "f32", y: "f32" });
 const Velocity = defineComponent("Velocity", { x: "f32", y: "f32" });
 
 const Movement = defineSystem(defineQuery([Position, Velocity]), (batch) => {
-  const px = batch.col(Position).x; // Float32Array — typed from the schema, no cast
+  const px = batch.col(Position).x; // a Float32Array, typed from the schema
   const py = batch.col(Position).y;
   const vx = batch.col(Velocity).x;
   const vy = batch.col(Velocity).y;
   for (const r of batch) {
-    // matched rows; filters fused
     px[r] += vx[r];
     py[r] += vy[r];
   }
@@ -117,312 +77,162 @@ world.tick([phase("sim", [Movement])]);
 world.read(e, Position); // { x: 1, y: 2 }
 ```
 
-Two system forms, named for their cardinality: a **chunk system** (above) pairs a query with a
-body that runs once per matching chunk — the fast SoA path for per-row transforms; every batch it
-sees has at least one matched row. A **tick system** runs exactly once per frame dispatch — the
-home for whole-frame effects like camera math or input drains, iterating real data inside when it
-needs to:
+The core has no dependencies. `loro-crdt` and `react` are optional peers, and you install them only for the layers that use them.
 
-```ts
-import { defineTickSystem } from "@vibecook/strata-ecs";
+## One frame
 
-const CameraControl = defineTickSystem((ctx) => {
-  // runs once per tick — never multiplied by how many archetypes exist
-  ctx.query(wheelEvents).each((b) => {
-    /* integrate pan/zoom exactly once per frame */
-  });
-});
-```
-
-A real app runs one frame loop — and writes it the same way from day one, so the
-collaboration layers attach later with zero rewrite:
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/readme/frame-dark.svg">
+    <img src=".github/readme/frame-light.svg" alt="One frame, as a loop: world.sync() lets changes from other people land, world.tick(pipeline) runs your systems, reactive.notify() fires observers once, and paint() draws the finished state. requestAnimationFrame closes the loop." width="100%">
+  </picture>
+</p>
 
 ```ts
 function frame() {
   requestAnimationFrame(frame);
-  world.sync(); // drain inbound layers (no-op until a collab layer attaches)
-  world.tick(pipeline()); // run systems; shape changes flush at phase boundaries
-  world.reactive.notify(); // THE settled point — fire dirty observers, once per frame
-  paint(); // render reads the finished state
-}
-requestAnimationFrame(frame);
-```
-
-## The five words
-
-| Term          | One line                                                                        | Guide                                                               |
-| ------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| **Entity**    | a stable handle naming one thing in the world — a shape, a node, an edge        | [Entities](https://jamesyong-42.github.io/strata-ecs/#entities)     |
-| **Component** | typed fields attached to an entity; entities with the same set share storage    | [Components](https://jamesyong-42.github.io/strata-ecs/#components) |
-| **System**    | a function that runs over every entity matching a query, once per tick          | [Systems](https://jamesyong-42.github.io/strata-ecs/#systems)       |
-| **Query**     | a compiled description of "entities with these components" — define once, reuse | [Queries](https://jamesyong-42.github.io/strata-ecs/#queries)       |
-| **World**     | the container that holds it all; `world.tick()` runs your systems over it       | [The frame loop](https://jamesyong-42.github.io/strata-ecs/#frame)  |
-
-Tags (zero-data markers), relations (indexed edges with cascade-on-despawn), and
-resources (world singletons) round out the data model.
-
-## When not to use it
-
-strata-ecs is built for one workload. If yours is a different one, a different tool
-will serve you better:
-
-- **A traditional game.** strata's documented weak spots are per-frame component
-  add/remove churn and random access by handle (the archetype-migration and
-  row-indirection trade-offs — see [the losses in BENCHMARKS.md](BENCHMARKS.md)).
-  A flat-bitmask ECS like [bitecs](https://github.com/NateTheGreatt/bitECS) fits a
-  game loop's shape better, and game engines ship their own.
-- **A few dozen stateful objects.** Below a few hundred entities the schema and
-  system ceremony buys nothing — React state, Zustand, or plain objects are simpler
-  and fast enough.
-- **Server-side business models.** This is a client-side document runtime organized
-  around a frame loop; CRUD models belong in a database, not a tick.
-- **"Everything persists automatically."** Durability here is an explicit layer you
-  attach and route state into — the runtime/document split is the point. If every
-  last piece of state should persist with no distinction, a document store alone
-  ([Loro](https://loro.dev), Yjs, Automerge) is the simpler system.
-
-## Architecture
-
-The name is the map: a stack of independent layers — strata — over one queryable
-runtime. The core ECS is a complete product on its own; everything above it is opt-in.
-
-```
-   ┌────────────────┐   ┌─────────────────┐   ┌─────────────────┐
-   │ REACTIVITY     │   │ DOCUMENT        │   │ PRESENCE        │
-   │ built in       │   │ durable         │   │ ephemeral       │  ← optional
-   │ watch queries  │   │ stored · synced │   │ cursors · TTL   │    layers
-   │ & values       │   │ conflict-free   │   │ self-expiring   │
-   └───────┬────────┘   └────────┬────────┘   └────────┬────────┘
-           │ observes            │ projects ↕          │ projects ↕
-           │            ┌────────┴─────────────────────┴────────┐
-           │            │   RECONCILE SUBSTRATE (internal)      │
-           │            │   converges concurrent edits —        │
-           │            │   you never import this               │
-           │            └────────┬──────────────────────────────┘
-   ┌───────▼─────────────────────▼──────────────────────────────┐
-   │ CORE ECS (strata-ecs)                                      │
-   │ entities · components · tags · relations · queries ·       │
-   │ systems · resources — typed-array archetype columns        │
-   │ the hot path: a tick touches only this layer               │
-   └────────────────────────────────────────────────────────────┘
-```
-
-Layers you haven't attached cost nothing; layers you have do their work at the frame's
-`sync()`/`notify()` boundaries, never inside your systems' loops. The CRDT is confined
-to two adapter classes; the core never imports it.
-
-Two rules carry most of the mental model:
-
-- **Mutation timing** — values flow immediately; structure (spawn, destroy, add/remove
-  component) lands at phase boundaries.
-- **One settled boundary per frame** — call `world.reactive.notify()` exactly once,
-  after all ticks, before you render.
-
-## Reactivity
-
-The world is the change detector. Three tiers, from coarse-and-cheap to precise:
-
-```ts
-// did anything matching this query move? (may over-fire, never misses)
-// the watched columns default to the query's own components; pass { cols } to narrow or widen
-world.reactive.observeQuery(renderable, () => {
-  repaint = true;
-});
-
-// this exact value changed (equal-value writes are suppressed)
-world.reactive.observeValue(e, Position, (pos) => {
-  /* { x, y } | undefined */
-});
-
-// a world singleton changed
-world.reactive.observeResource(Camera, () => {
-  repaint = true;
-});
-```
-
-React components subscribe with two hooks — re-rendering exactly once per real change:
-
-```tsx
-import { useComponent, useResource } from "@vibecook/strata-ecs/react";
-
-function ShapeInspector({ world, entity }: { world: World; entity: Entity }) {
-  const pos = useComponent(world, entity, Position);
-  const cam = useResource(world, Camera);
-  return <span>{pos ? `${pos.x}, ${pos.y}` : "—"}</span>;
+  world.sync(); // does nothing until a collaboration layer is attached
+  world.tick(pipeline());
+  world.reactive.notify(); // once per frame, after every tick
+  paint();
 }
 ```
 
-## Save & load
+Write the loop this way from the first day, and the collaboration layers attach later without changing it. Inside a tick, values change at once. Spawns, destroys and component changes land between phases.
 
-The runtime serializes itself — no collaboration required:
+## What you get
 
-```ts
-const bytes = world.export(); // readable UTF-8 JSON
-world.import(bytes, { replace: true }); // validates, then resets the SAME world in
-// place — observers and subscriptions survive
-```
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <picture><source media="(prefers-color-scheme: dark)" srcset=".github/readme/tile-columns-dark.svg"><img src=".github/readme/tile-columns-light.svg" alt="" width="100%"></picture>
+      <b>Typed-array columns</b><br>
+      Components live in columns, grouped by archetype. A system is a loop straight down a <code>Float32Array</code>.
+    </td>
+    <td width="33%" valign="top">
+      <picture><source media="(prefers-color-scheme: dark)" srcset=".github/readme/tile-types-dark.svg"><img src=".github/readme/tile-types-light.svg" alt="" width="100%"></picture>
+      <b>Types from one schema</b><br>
+      The schema you write types both the storage and your code. A wrong field name doesn't compile.
+    </td>
+    <td width="33%" valign="top">
+      <picture><source media="(prefers-color-scheme: dark)" srcset=".github/readme/tile-reactivity-dark.svg"><img src=".github/readme/tile-reactivity-light.svg" alt="" width="100%"></picture>
+      <b>Reactivity</b><br>
+      Watch a query, one value or a resource, with no dirty flags. It stays dormant until the first observer.
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <picture><source media="(prefers-color-scheme: dark)" srcset=".github/readme/tile-document-dark.svg"><img src=".github/readme/tile-document-light.svg" alt="" width="100%"></picture>
+      <b>A shared document</b><br>
+      Stored for good and synced between people. Edits merge without conflicts, and undo is per person.
+    </td>
+    <td width="33%" valign="top">
+      <picture><source media="(prefers-color-scheme: dark)" srcset=".github/readme/tile-presence-dark.svg"><img src=".github/readme/tile-presence-light.svg" alt="" width="100%"></picture>
+      <b>Presence</b><br>
+      Cursors and selections for everyone in the room. They expire by themselves when someone leaves.
+    </td>
+    <td width="33%" valign="top">
+      <picture><source media="(prefers-color-scheme: dark)" srcset=".github/readme/tile-devtools-dark.svg"><img src=".github/readme/tile-devtools-light.svg" alt="" width="100%"></picture>
+      <b>Devtools</b><br>
+      An inspector panel and a frame profiler with percentiles and a worst-frame capture.
+    </td>
+  </tr>
+</table>
 
-## Going multiplayer
+Also: tags, relations that cascade when an entity is destroyed, world resources, save and load for the whole world (`world.export()`, `world.import()`), two React hooks, and a [headless host](examples/headless-host) for Node.
 
-Everything above runs entirely local. When you want other people in the same document,
-two layers attach:
+## Multiplayer
 
-|           | **Document** (`@vibecook/strata-ecs/durable`) | **Presence** (`@vibecook/strata-ecs/ephemeral`) |
-| --------- | --------------------------------------------- | ----------------------------------------------- |
-| Holds     | the board itself — shapes, edges, styles      | the people on it — cursors, selections          |
-| Lifetime  | permanently stored, merges without conflicts  | self-expiring; resets when a peer disconnects   |
-| Backed by | Loro's CRDT document                          | Loro's ephemeral store                          |
+<p align="center">
+  <a href="https://vibefield.github.io/strata-ecs/demo/?collab=demo"><img src=".github/readme/collab.png" alt="Two browser tabs showing the same board. In each, the tab's own selection is outlined in blue, and the other tab's cursor, name tag and selection are drawn in that peer's colour." width="100%"></a>
+</p>
+
+<p align="center"><sub>Two tabs in one room of the <a href="https://vibefield.github.io/strata-ecs/demo/?collab=demo">demo</a>, with its side panels hidden. Each shows the other's cursor and selection. The names are made up by the demo.</sub></p>
 
 ```ts
 import { LoroDoc } from "loro-crdt";
 import { createDurableStore, attachDurable } from "@vibecook/strata-ecs/durable";
 
-const doc = createDurableStore(new LoroDoc()); // the ONE place the CRDT enters
-attachDurable(world, doc); // project it into the runtime
+const doc = createDurableStore(new LoroDoc());
+attachDurable(world, doc);
 
-doc.subscribeOutbound((bytes) => transport.send(bytes)); // outbound wire
-transport.onMessage((bytes) => doc.applyRemote(bytes)); // inbound wire
+doc.subscribeOutbound((bytes) => transport.send(bytes));
+transport.onMessage((bytes) => doc.applyRemote(bytes));
 
-// Change the document only inside a transaction — one commit, one undo unit.
 doc.transaction((tx) => {
-  const shape = tx.spawn({
-    components: [
-      [Position, { x: 0, y: 0 }],
-      [Size, { w: 100, h: 60 }],
-    ],
-  });
+  tx.spawn({ components: [[Position, { x: 0, y: 0 }]] });
 });
 ```
 
-Convergence is not code you write: concurrent edits merge automatically on every peer,
-offline peers catch up from increments, and no server has to arbitrate — a relay that
-moves bytes is enough. Conflict resolution is **committer-wins, per component**: a drag
-writes the runtime every frame and commits once at gesture end; the framework holds
-conflicting remote edits off while your gesture is in flight, then everyone converges.
+Merging is [Loro](https://loro.dev)'s job, so you write no conflict code and no server has to decide. Anything that carries a `Uint8Array` works as the transport: WebSocket, `BroadcastChannel`, WebRTC. One transaction is one undo step.
 
-Presence is the same idea for people: each peer owns a partition, writes it immediately,
-and every other peer projects in as a live `Not(Local)` entity that self-expires on TTL.
+`@vibecook/strata-ecs/ephemeral` does the same for presence. The [guide](https://vibefield.github.io/strata-ecs/#collab) covers both layers.
 
-Undo and redo are built in and local-only — `doc.undo()` / `doc.redo()`, one transaction
-per step, `doc.undoGroup(fn)` to collapse a gesture, and a `DurableUndoStatus` resource to
-drive toolbar enablement. See [Undo & history](https://jamesyong-42.github.io/strata-ecs/#undo).
+## Benchmarks
 
-See [Going multiplayer](https://jamesyong-42.github.io/strata-ecs/#collab) in the guide for
-the full story — the visibility rules, entity keys vs. handles, and the transport
-bootstrap protocol.
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/readme/bench-dark.svg">
+    <img src=".github/readme/bench-light.svg" alt="Four charts against bitecs, becsy, miniplex and koota, in microseconds per operation. strata-ecs is fastest at simple_iter (11.2), entity_cycle (255) and spawn_reap_frame (1,814). At add_remove it takes 484, where becsy takes 189 and bitecs 196." width="100%">
+  </picture>
+</p>
 
-## Devtools
+strata-ecs ties bitecs on dense iteration and leads when entities are created and destroyed. It loses when components are added and removed often, because each change moves the row to another table. [BENCHMARKS.md](BENCHMARKS.md) has all ten scenarios, the losses and the method. The numbers were measured on 0.5.1 in July 2026.
 
-```ts
-import { attachObserver } from "@vibecook/strata-ecs/tools";
-const obs = attachObserver(world, { describe });
-```
+## When not to use it
 
-A zero-dependency inspector panel: live entity list, per-system timings, a birth-to-death
-timeline — and, when collaboration is attached, a **durable** tab (baseline vs. converged
-document side by side; highlighted rows are the un-reconciled sync delta) and an
-**ephemeral** tab (every peer's live presence, grouped by writer).
+- **A traditional game.** Adding and removing components every frame, and random reads by handle, are its weak spots. [bitecs](https://github.com/NateTheGreatt/bitECS) fits a game loop better.
+- **A few dozen objects.** Below a few hundred entities, React state or plain objects are simpler and fast enough.
+- **Server-side business models.** This is a client-side document runtime built around a frame loop.
+- **Everything should persist.** Here you choose what goes into the document. If all your state should persist, a document store alone ([Loro](https://loro.dev), Yjs, Automerge) is simpler.
 
-```ts
-import { attachProfiler } from "@vibecook/strata-ecs/tools";
-const prof = attachProfiler(world);   // fps + sparkline, one line, no loop rewiring
-prof.lane("paint", paintMs);          // optional: stack host costs next to the ECS share
-```
+## Entry points
 
-Its sibling is a frame-profiler **overlay** — a meter you leave on rather than a panel you
-open. Collapsed: fps, tick cost, and a frame-time sparkline against the budget line.
-Expanded: frame/tick **percentiles** (p50/p95/p99/max — averages hide spikes), per-lane
-costs, the hottest systems, and a **worst-frame capture** — the full per-system breakdown
-of the worst frame since reset, so "what made *that* frame slow" stays answerable after
-the fact. `stats()` returns the same snapshot programmatically for tests or telemetry.
+| Import                           | What                                | Needs       |
+| -------------------------------- | ----------------------------------- | ----------- |
+| `@vibecook/strata-ecs`           | The core ECS and reactivity         | nothing     |
+| `@vibecook/strata-ecs/durable`   | The document layer                  | `loro-crdt` |
+| `@vibecook/strata-ecs/ephemeral` | The presence layer                  | `loro-crdt` |
+| `@vibecook/strata-ecs/react`     | `useComponent` and `useResource`    | `react` 18+ |
+| `@vibecook/strata-ecs/tools`     | The observer panel and the profiler | nothing     |
 
-## The example app
-
-[`examples/canvas-editor`](examples/canvas-editor) — an infinite-canvas whiteboard in
-vanilla TypeScript + Canvas2D whose only runtime dependency is strata-ecs. **Try it live:
-[the hosted demo](https://jamesyong-42.github.io/strata-ecs/demo/)** — open two tabs at
-[`?collab=demo`](https://jamesyong-42.github.io/strata-ecs/demo/?collab=demo) for multiplayer. 10k+ shapes
-with brute-force culling, reactive repaint and autosave from one `observeQuery`, and the
-full collaboration stack:
-
-```sh
-pnpm install
-pnpm example:canvas          # → http://localhost:5173
-
-# multiplayer between two tabs (no server):
-#   http://localhost:5173/?collab=demo
-
-# across machines over a WebSocket relay:
-pnpm collab:server           # dumb byte relay — ws://localhost:8787
-#   http://localhost:5173/?collab=demo&ws
-```
-
-[`examples/headless-host`](examples/headless-host) is its server-side counterpart — strata
-running **headless** in Node, no DOM and no `requestAnimationFrame`. It is a runnable **document
-host**: many rooms as many authoritative Worlds in one process, synced to clients over WebSocket
-and persisted to disk. Headless/server hosting is a first-class mode, not a workaround.
-
-## Performance
-
-On the canonical ECS micro-benchmarks (Node 24), strata-ecs ties or beats bitecs — the
-flat-array specialist — on dense iteration, and leads on entity-lifecycle churn.
-A movement tick over 10,000 entities runs in ~0.2 ms with zero per-row allocation.
-The archetype trade-off is real and documented: adding or removing a component migrates
-the row between tables.
-
-Full cross-library tables, methodology, and the losses included:
-[BENCHMARKS.md](BENCHMARKS.md).
-
-## Package exports
-
-| Import                           | What                                 | Requires      |
-| -------------------------------- | ------------------------------------ | ------------- |
-| `@vibecook/strata-ecs`           | the core ECS + reactivity            | nothing       |
-| `@vibecook/strata-ecs/durable`   | the Document (durable) layer         | `loro-crdt`   |
-| `@vibecook/strata-ecs/ephemeral` | the Presence (ephemeral) layer       | `loro-crdt`   |
-| `@vibecook/strata-ecs/react`     | `useComponent` / `useResource` hooks | `react >= 18` |
-| `@vibecook/strata-ecs/tools`     | the inspector panel + frame profiler | nothing       |
-
-ESM-only. `loro-crdt` and `react` are optional peer dependencies — never bundled, only
-needed for the entry points that use them.
-
-Every entry ships **two builds** behind export conditions: a `development` build with
-dev-mode diagnostics (misuse warnings on the console) and a production build with those
-branches — message strings included — compiled out entirely. App bundlers like Vite and
-webpack pick the right one automatically (they apply the `development` condition in dev
-mode and the default in production builds); no `process.env` shim or define is needed.
-Tools that don't apply the condition (esbuild, plain Rollup, Bun) and plain Node resolve
-the production build — opt into diagnostics there with `--conditions=development`.
-
-## Development
-
-Requires **Node 24+** (see [`.nvmrc`](.nvmrc)) and **pnpm**.
-
-```sh
-pnpm install
-pnpm typecheck        # tsc, all sub-projects
-pnpm test             # vitest unit suites
-pnpm test:stress      # property/fuzz suites (longer)
-pnpm bench            # microbenchmarks
-pnpm build            # bundle to dist/ (tsup → ESM + .d.ts)
-pnpm run ci           # typecheck + lint + tests + stress smoke — the merge gate
-pnpm example:canvas   # the flagship example, live-reloading against src/
-```
-
-Repository layout: [`src/core`](src/core) (the runtime), [`src/substrate`](src/substrate)
-(the internal reconcile layer), [`src/durable`](src/durable) + [`src/ephemeral`](src/ephemeral)
-(the collaboration layers), [`src/tools`](src/tools) + [`src/react`](src/react) (devtools,
-React binding), [`examples/canvas-editor`](examples/canvas-editor) (the flagship demo),
-[`docs/`](docs) (the docs site: the guide + the API reference).
+ESM only. Each entry ships a development build with misuse warnings and a production build without them, and Vite and webpack pick the right one.
 
 ## Status
 
-**Pre-1.0.** The core, the reactivity tier, both collaboration layers, the devtools,
-and the example app are complete, benchmarked, and green under the full test suite —
-this README describes what is built, not what is planned. Published to npm as
-[`@vibecook/strata-ecs`](https://www.npmjs.com/package/@vibecook/strata-ecs); minor
-versions may still break APIs before 1.0.
+- **0.x.** The API can still change between minor versions. Pin your version and read the [changelog](CHANGELOG.md) when you bump it.
+- **Built, not planned.** The core, reactivity, both collaboration layers, the devtools and the example app are complete and under test.
+- **Node 20 or later** to use it. Developing it needs Node 24.
 
-## License
+<details>
+<summary><b>Development</b></summary>
 
-[MIT](LICENSE)
+<br>
+
+```sh
+pnpm install
+pnpm run ci           # typecheck, lint, tests and the stress smoke: the merge gate
+pnpm bench            # microbenchmarks
+pnpm build            # dist/, as ESM with types
+pnpm example:canvas   # the whiteboard, live against src/
+pnpm collab:server    # a byte relay, for multiplayer across machines
+```
+
+The code is in [`src/core`](src/core) (the runtime), [`src/durable`](src/durable) and [`src/ephemeral`](src/ephemeral) (the collaboration layers), and [`src/tools`](src/tools) and [`src/react`](src/react). [`examples/canvas-editor`](examples/canvas-editor) is the demo, and [`docs/`](docs) is the guide's source. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+</details>
+
+<br>
+
+<p align="center">
+  <a href="https://github.com/vibefield">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset=".github/readme/vibefield-dark.svg">
+      <img src=".github/readme/vibefield-light.svg" alt="VibeField" height="24">
+    </picture>
+  </a>
+</p>
+
+<p align="center">
+  <sub><a href="LICENSE">MIT</a> © 2026 James Yong. strata-ecs runs under <a href="https://github.com/vibefield/infinite-canvas-engine">ICE</a>, the canvas engine of <a href="https://github.com/vibefield/vibefield">VibeField</a>.</sub>
+</p>
